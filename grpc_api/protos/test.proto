@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message Number {
+    int32 value = 1;
+}
+
+message NumberList {
+    repeated Number numbers = 1;
+}
+
+message Empty {}
+
+service NumberService {
+    rpc square (Number) returns (Number) {}
+    rpc sum (NumberList) returns (Number) {}
+    rpc sixtyNine (Empty) returns (Number) {}
+}

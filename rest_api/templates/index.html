@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+
+        <title>Reminder</title>
+    </head>
+    <body>
+        <div class = "tab-container">
+            <button class="tab active" data-tab-target="#reminder" onclick="expandTab(event)">Reminder</button>
+            <button class="tab" data-tab-target="#history" onclick="expandTab(event)">History</button>
+        </div>
+        <div id = "reminder" class="content active">
+            <h1>Reminder</h1>
+            <p style="font-size: smaller;"> *can only be updated using API calls</p>
+            {% for entry in reminders %}
+                <div class="reminder-entry">
+                    <p>{{entry.task}}</p>
+                    <p class="date">{{entry.date}}</p>
+                    <p class="time">{{entry.time}}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div id = "history" class="content">
+            <h1>History</h1>
+            <table id = "history-table">
+                <tr>
+                    <th>Task ID</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            {% for entry in history %}
+                <tr>
+                    <td>{{entry.task_id}}</td>
+                    <td>{{entry.status}}</td>
+                    <td>{{entry.date}}</td>
+                    <td>{{entry.time}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>

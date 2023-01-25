@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta http-equiv="refresh" content="1">
+
+        <!-- <script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script> -->
+        <!-- <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}"> -->
+        
+        <style>
+            .light-container{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                min-height: 100vh;
+            }
+            .circle-light{
+                width: 150px; 
+                height: 150px; 
+                line-height: 150px; 
+                -moz-border-radius: 50%;
+                border-radius: 50%;
+                border: solid 3px #000000;
+                color: #000000;
+                text-align: center;
+                display: flex; 
+                justify-content:center; 
+                align-items:center; 
+                font-size: 30px;
+                margin: 10px;
+            }
+            .box {
+                border: solid 3px #000000; /* increase border width to 4px */
+                padding: 20px; /* add padding to create space between the border and the circles */
+                margin: 10px; /* add a margin to create space between the circles */
+                border-radius: 20px;
+            }
+            .light-system-title {
+                position: absolute; /* position the element absolutely */
+                top: calc(30% - 75px);; /* align the top of the element to the top of the parent container */
+                left: 50%; /* center the element horizontally within the parent container */
+                transform: translateX(-50%); /* adjust the horizontal position to center the element */
+                z-index: 1; /* ensure the element is on top of the other elements */
+            }
+        </style>
+    
+    
+        <title>Light System</title>
+    </head>
+    <body>
+        <h1 class="light-system-title">Light System</h1>
+        <div class ="light-container">
+            <div class="box">
+                <div class="circle-light" style="background-color:{{first.rgb}}">1</div>
+                <p>{{first.rgb}}</p>
+            </div>
+            <div class="box">
+                <div class="circle-light" style="background-color:{{second.rgb}}">2</div>
+                <p>{{second.rgb}}</p>
+            </div>
+            <div class="box">
+                <div class="circle-light" style="background-color:{{third.rgb}}">3</div>
+                <p>{{third.rgb}}</p>
+            </div>
+        </div>
+    </body>
+    
+</html>

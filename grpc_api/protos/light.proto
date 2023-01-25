@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package light;
+
+// Message for a light
+message Light {
+    uint32 id = 1;
+    string rgb = 2;
+    bool on = 3;
+}
+
+message Id {
+    uint32 id = 1;
+}
+
+// Empty message
+message Empty {}
+
+// message for light stream
+message LightStream {
+    repeated Light lights = 1;
+}
+
+service LightService {
+    // unary
+    rpc GetLight (Id) returns (Light) {}
+    rpc SetLight (Light) returns (Light) {}
+
+    // server streaming
+    rpc GetLights (Empty) returns (stream Light) {}
+    
+    // client streaming
+    rpc SetLights (stream Light) returns (Empty) {}
+
+    // bidirectional streaming
+    rpc SetGetLights (stream Light) returns (stream Light) {}
+}
+
+
+// run with "python3 -m grpc_tools.protoc -I./protos protos/light.proto --python_out=. --grpc_python_out=."
