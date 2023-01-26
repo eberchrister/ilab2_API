@@ -6,8 +6,7 @@ import light_pb2 as light__pb2
 
 
 class LightServiceStub(object):
-    """Service for controlling lights
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
         """Constructor.
@@ -17,34 +16,33 @@ class LightServiceStub(object):
         """
         self.GetLight = channel.unary_unary(
                 '/light.LightService/GetLight',
-                request_serializer=light__pb2.Indicator.SerializeToString,
-                response_deserializer=light__pb2.LightResponse.FromString,
+                request_serializer=light__pb2.Id.SerializeToString,
+                response_deserializer=light__pb2.Light.FromString,
                 )
         self.SetLight = channel.unary_unary(
                 '/light.LightService/SetLight',
-                request_serializer=light__pb2.LightRequest.SerializeToString,
-                response_deserializer=light__pb2.Empty.FromString,
+                request_serializer=light__pb2.Light.SerializeToString,
+                response_deserializer=light__pb2.Light.FromString,
                 )
         self.GetLights = channel.unary_stream(
                 '/light.LightService/GetLights',
                 request_serializer=light__pb2.Empty.SerializeToString,
-                response_deserializer=light__pb2.LightResponse.FromString,
+                response_deserializer=light__pb2.Light.FromString,
                 )
         self.SetLights = channel.stream_unary(
                 '/light.LightService/SetLights',
-                request_serializer=light__pb2.LightRequest.SerializeToString,
+                request_serializer=light__pb2.Light.SerializeToString,
                 response_deserializer=light__pb2.Empty.FromString,
                 )
-        self.CheckLights = channel.stream_stream(
-                '/light.LightService/CheckLights',
-                request_serializer=light__pb2.Indicator.SerializeToString,
-                response_deserializer=light__pb2.ChatMessage.FromString,
+        self.SetGetLights = channel.stream_stream(
+                '/light.LightService/SetGetLights',
+                request_serializer=light__pb2.Light.SerializeToString,
+                response_deserializer=light__pb2.Light.FromString,
                 )
 
 
 class LightServiceServicer(object):
-    """Service for controlling lights
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def GetLight(self, request, context):
         """unary
@@ -60,21 +58,21 @@ class LightServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetLights(self, request, context):
-        """server --> client streaming
+        """server streaming
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SetLights(self, request_iterator, context):
-        """client --> server streaming
+        """client streaming
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def CheckLights(self, request_iterator, context):
-        """client <--> server streaming
+    def SetGetLights(self, request_iterator, context):
+        """bidirectional streaming
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -85,28 +83,28 @@ def add_LightServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetLight': grpc.unary_unary_rpc_method_handler(
                     servicer.GetLight,
-                    request_deserializer=light__pb2.Indicator.FromString,
-                    response_serializer=light__pb2.LightResponse.SerializeToString,
+                    request_deserializer=light__pb2.Id.FromString,
+                    response_serializer=light__pb2.Light.SerializeToString,
             ),
             'SetLight': grpc.unary_unary_rpc_method_handler(
                     servicer.SetLight,
-                    request_deserializer=light__pb2.LightRequest.FromString,
-                    response_serializer=light__pb2.Empty.SerializeToString,
+                    request_deserializer=light__pb2.Light.FromString,
+                    response_serializer=light__pb2.Light.SerializeToString,
             ),
             'GetLights': grpc.unary_stream_rpc_method_handler(
                     servicer.GetLights,
                     request_deserializer=light__pb2.Empty.FromString,
-                    response_serializer=light__pb2.LightResponse.SerializeToString,
+                    response_serializer=light__pb2.Light.SerializeToString,
             ),
             'SetLights': grpc.stream_unary_rpc_method_handler(
                     servicer.SetLights,
-                    request_deserializer=light__pb2.LightRequest.FromString,
+                    request_deserializer=light__pb2.Light.FromString,
                     response_serializer=light__pb2.Empty.SerializeToString,
             ),
-            'CheckLights': grpc.stream_stream_rpc_method_handler(
-                    servicer.CheckLights,
-                    request_deserializer=light__pb2.Indicator.FromString,
-                    response_serializer=light__pb2.ChatMessage.SerializeToString,
+            'SetGetLights': grpc.stream_stream_rpc_method_handler(
+                    servicer.SetGetLights,
+                    request_deserializer=light__pb2.Light.FromString,
+                    response_serializer=light__pb2.Light.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -116,8 +114,7 @@ def add_LightServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class LightService(object):
-    """Service for controlling lights
-    """
+    """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def GetLight(request,
@@ -131,8 +128,8 @@ class LightService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/light.LightService/GetLight',
-            light__pb2.Indicator.SerializeToString,
-            light__pb2.LightResponse.FromString,
+            light__pb2.Id.SerializeToString,
+            light__pb2.Light.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -148,8 +145,8 @@ class LightService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/light.LightService/SetLight',
-            light__pb2.LightRequest.SerializeToString,
-            light__pb2.Empty.FromString,
+            light__pb2.Light.SerializeToString,
+            light__pb2.Light.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -163,10 +160,10 @@ class LightService(object):
             compression=None,
             wait_for_ready=None,
             timeout=None,
-            metadata=None):
+            metadata=None): 
         return grpc.experimental.unary_stream(request, target, '/light.LightService/GetLights',
             light__pb2.Empty.SerializeToString,
-            light__pb2.LightResponse.FromString,
+            light__pb2.Light.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -182,13 +179,13 @@ class LightService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.stream_unary(request_iterator, target, '/light.LightService/SetLights',
-            light__pb2.LightRequest.SerializeToString,
+            light__pb2.Light.SerializeToString,
             light__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def CheckLights(request_iterator,
+    def SetGetLights(request_iterator,
             target,
             options=(),
             channel_credentials=None,
@@ -198,8 +195,8 @@ class LightService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/light.LightService/CheckLights',
-            light__pb2.Indicator.SerializeToString,
-            light__pb2.ChatMessage.FromString,
+        return grpc.experimental.stream_stream(request_iterator, target, '/light.LightService/SetGetLights',
+            light__pb2.Light.SerializeToString,
+            light__pb2.Light.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
