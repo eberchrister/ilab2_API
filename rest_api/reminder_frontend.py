@@ -1,6 +1,6 @@
 import utils
 import requests
-from flask import Flask, session, render_template, g
+from flask import Flask, render_template
 
 
 app = Flask(__name__)
