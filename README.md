@@ -122,6 +122,7 @@ To see the visualization:
 http://localhost:5001
 ```
 
+---
 An important concept of gRPC client is the creation of stubs in order to call the remote functions. In our case, it's something like this: 
 
 ```python
@@ -164,6 +165,26 @@ stub.SetLights(set_lights_requests)
 This sends a sequence of **LightRequests** to the server. It sends each LightRequest object once per 1 second, and will set the state of the specified light objects in the database.
 
 For Bi-directional streaming, both the client and the server will implement these object streaming. This is useful in applications where a chat-like communication is happening between the client and the server.
+
+---
+In order to run the functions in the client-side without implementing an event-listener on the frontend, we have designed the functions to be accessible through 
+`curl` calls.
+
+``` sh
+curl localhost:5001/getLight/1
+curl localhost:5001/getLight/2
+curl localhost:5001/getLight/3
+
+curl localhost:5001/setLight/1-255-0-0-1
+curl localhost:5001/setLight/2-0-255-0-1
+curl localhost:5001/setLight/2-0-0-255-1
+
+curl localhost:5001/getLights
+
+curl localhost:5001/setLights/1,255,0,0,1-1,255,0,0,0-2,255,0,0,1-2,255,0,0,0-3,255,0,0,1-3,255,0,0,0-1,255,90,90,1-2,90,255,90,1-3,90,90,255,1
+
+curl localhost:5001/checkLights/1,2,1,2,2,3,3,3,3,3,1
+```
 
 
 [//]: # 
