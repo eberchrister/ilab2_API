@@ -1,0 +1,35 @@
+schema {
+    query: Query
+}
+
+type CryptoFish {
+    id: ID!
+    name: String!
+    planet: Planet!
+    status: String!
+    size: String!
+    cost: Int!
+    owner: User!
+}
+
+type Planet {
+    id: ID!
+    name: String!
+    type: String!
+}
+
+type User{
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type Portfolio {
+    user: User!
+    cryptoFish: [CryptoFish]!
+    totalValue: Int!
+}
+
+type Query {
+    Portfolio: Portfolio!
+}

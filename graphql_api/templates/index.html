@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <!-- <script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}"> -->
+
+        <title>cryptofish</title>
+        <style>
+            .fish-entry {
+                display: flex;
+            }
+
+            .fish {
+                float:left;
+                width: 50%;
+                border-right: 2px dashed black;
+                padding-left: 10px;
+                display: flex;
+                align-items: center; /* align the text vertically */
+                justify-content: center; 
+            }
+            
+            .fish-desc {
+                float:left;
+                width: 50%;
+                padding-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id = "cryptofish" class="content active">
+            <h1>Cryptofish</h1>             
+            <p style="font-size: smaller;"> *can only be updated using API calls</p>
+            
+            {% for cryptofish in all_cryptofish %}
+            <div class="fish-entry" style="border:2px black double; width: 500px ;">
+                <div class="fish">
+                    <p style="font-family: monospace">
+                        {% autoescape false %}
+                        {{cryptofish.art}}
+                        {% endautoescape %}
+                    </p>
+                </div>
+                <div class="fish-desc">
+                    <p style="font-family: monospace">
+                        id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{cryptofish.id}}<br>
+                        name&nbsp;&nbsp;&nbsp;&nbsp;: {{cryptofish.name}}<br>
+                        planet&nbsp;&nbsp;: {{cryptofish.planet.name}}<br>
+                        status&nbsp;&nbsp;: {{cryptofish.status}}<br>
+                        size&nbsp;&nbsp;&nbsp;&nbsp;: {{cryptofish.size}}<br>
+                        value&nbsp;&nbsp;&nbsp;: {{cryptofish.cost}} ILAB<br>
+                        owner&nbsp;&nbsp;&nbsp;: {{cryptofish.owner.name}}
+                    </p>
+                </div>
+            </div>
+            </br>
+            {% endfor %}
+        </div>
+        
+    </body>
+</html>
