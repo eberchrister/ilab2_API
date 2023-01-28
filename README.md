@@ -4,6 +4,8 @@ Development of different API architectures in python - REST API, gRPC, GraphQL
 ## Extra Libraries
 - [Flask] - lightweight web application framework
 - [gRPCio] - allows development of gRPC in python
+- [Strawberry] - allows the hosting of graphql server 
+- [requests] - simple HTTP requesting
 
 ## REST API
 In this project, a **REST API** is to be developed for a reminder web-app. This reminder web-app is designed in such a way that its content can only be modified through API calls to the backend.
@@ -186,8 +188,120 @@ curl localhost:5001/setLights/1,255,0,0,1-1,255,0,0,0-2,255,0,0,1-2,255,0,0,0-3,
 curl localhost:5001/checkLights/1,2,1,2,2,3,3,3,3,3,1
 ```
 
+# GraphQL
+In this project, a **GraphQL** server for a fictional NFT server for **cryptofish**. This project is a good example to visualize the advantages of GraphQL over conventional REST API standards. GraphQL is designed in such a way that the client is able to ask or *query* all the data needed to the server and receives all of that even if the resources being requested reside in separate microservices, API endpoints, as well as databases. This allows the user to be able to obtain all the necessary information about the Cryptofish he owns and is available.
+
+## Setting up GraphQL server
+### Schema development
+GraphQL servers use a schema to describe the structure of the stored data. It describes which data can be queried and mutated by the clients. Think of it as a database where each *type objects* refer to a database table. There are two main ways to design a schema : *schema-first* and *code-first*. 
+
+The schema-first approach offers more readability with a sacrifice of flexibility `schema.graphql`, whereas the code-first approach offers more flexibility `schema.py`. Strawberry makes use exclusively of the latter and focuses more on the **resolver** development. The `object-types` for the schema looks like the following: 
+**schema-first**: 
+``` graphql
+type SomeObject {
+    id : ID!
+    name : String
+}
+
+type Query {
+    obtaineObject : SomeObject
+}
+
+type Mutation {
+    changeObject : SomeObject
+}
+```
+**code-first**: 
+``` python
+import strawberry
+
+@strawberry.type
+class SomeObject:
+    id : strawberry.ID
+    name : str | None
+    
+@strawberry.type
+class Query:
+    obtaine_object : SomeObject
+
+@strawberry.type
+class Mutation:
+    change_object : SomeObject
+```
+
+The `!` means non-nullable. In Strawberry, all fields are non-nullable to begin with, so if a null value is allowed, `| None` must be added. It is importent to node that there are 4 types of schema items :  
+`object-type` --> user-defined queryable object <br />
+`query-type` --> obtains resources by resolving the functions for it <br />
+`mutation-type` --> updates resources by resolving the functions for it <br />
+`subscription-type` --> stream resources from the server (not implemented here) <br />
+### Resolver development
+In order to carry out a query or mutation, resolver functions have to be developed in order to perform the specific requests. Taking the example schema from above, a function has to be developed in order for the query to be able to perform the `obtain_object` query. This can be done two ways: 
+``` python
+def perform_obtain_object(self, object_id: strawberry.ID) -> SomeObject:
+    # obtain data from resource-pool
+    return SomeObject(id=object_id, name="Jack")
+
+@strawberry.type
+class Query:
+    obtain_object: SomeObject = strawberry.field(resolver=perform_obtain_object)
+```
+or 
+``` python
+@strawberry.type
+class Query:
+    @strawberry.field
+    def obtain_object(self, object_id: strawberry.ID) -> SomeObject:
+        # obtain data from resource-pool
+        SomeObject(id=object_id, name='Jack')
+```
+Mutations are implemented analogously to the Queries.
+### Deploying Strawberry server
+To deploy the Strawberry server, the following line has to be added in the python file. For example `schema.py`
+``` python
+schema = strawberry.Schema(query=Query)
+```
+then, the server can be executed by:
+``` sh
+strawberry server schema
+```
+which will output the following:
+``` sh
+Running strawberry on http://0.0.0.0:8000/graphql 🍓
+```
+
+By going to that address, we will be taken to an interactive GUI where queries can be made there. For example, running the query : 
+``` graphql
+{
+    obtain_object (userid:5) {
+        id
+        name
+    }
+}
+```
+will return:
+``` graphql
+{
+  "data": {
+    "user": {
+      "id": "2",
+      "name": "Jack"
+    }
+  }
+}
+```
+This can be carried out using curl command:
+```curl
+curl \
+-X POST \
+-H "Content-Type: application/json" \
+--data '{"query": "{obtain_object(userid:1){id name}}"}' \
+http://localhost:8000/graphql`
+```
+
 
 [//]: # 
    [flask]: <https://flask.palletsprojects.com/en/2.2.x/>
    [grpcio]: <https://grpc.io/docs/languages/python/quickstart/>
+   [requests]: <https://requests.readthedocs.io/en/latest/>
+   [strawberry]: <https://strawberry.rocks/>
    
