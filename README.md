@@ -230,10 +230,10 @@ class Mutation:
 ```
 
 The `!` means non-nullable. In Strawberry, all fields are non-nullable to begin with, so if a null value is allowed, `| None` must be added. It is importent to node that there are 4 types of schema items :  
-`object-type` --> user-defined queryable object
-`query-type` --> obtains resources by resolving the functions for it
-`mutation-type` --> updates resources by resolving the functions for it
-`subscription-type` --> stream resources from the server (not implemented here)
+`object-type` --> user-defined queryable object <br />
+`query-type` --> obtains resources by resolving the functions for it <br />
+`mutation-type` --> updates resources by resolving the functions for it <br />
+`subscription-type` --> stream resources from the server (not implemented here) <br />
 ### Resolver development
 In order to carry out a query or mutation, resolver functions have to be developed in order to perform the specific requests. Taking the example schema from above, a function has to be developed in order for the query to be able to perform the `obtain_object` query. This can be done two ways: 
 ``` python
