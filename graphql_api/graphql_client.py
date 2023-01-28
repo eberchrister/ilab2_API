@@ -48,7 +48,7 @@ def cryptofish_art(cryptofish):
     elif cryptofish['planet']['id'] == '5':
         art += '|/x-!2``2!-x\|<br>'
     elif cryptofish['planet']['id'] == '4':
-        art += '|=<c=.!.²=s>=|<br>'
+        art += '|=@c=.!.²=s@=|<br>'
     elif cryptofish['planet']['id'] == '6':
         art += '|-0o.m--54*>-|<br>'
     elif cryptofish['planet']['id'] == '7':
@@ -84,7 +84,7 @@ def cryptofish_art(cryptofish):
     elif cryptofish['size'] == 'colossal':
         art += '|ÔOOOOOOOOOOO|<br>'
 
-    art += '+-----[{}]+<br>'.format(cryptofish['name'])
+    art += '+------|{}|<br>'.format(cryptofish['name'])
 
 
     
@@ -94,4 +94,4 @@ def cryptofish_art(cryptofish):
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=False, port=5002)
