@@ -34,7 +34,7 @@ if not os.path.exists('reminder.db') or os.stat('reminder.db').st_size == 0:
     conn.commit()
 
 # get all reminders
-@app.route(root + '/reminders')
+@app.route(root + '/reminders', methods=['GET'])
 def get_all_reminders():
     cursor.execute('SELECT * FROM reminder')
     reminders = cursor.fetchall()
@@ -42,17 +42,17 @@ def get_all_reminders():
     for reminder in reminders:
         reminder_dict = { 'id': reminder[0], 'task': reminder[1], 'date': reminder[2], 'time': reminder[3] }
         output.append(reminder_dict)
-    return jsonify(output)
+    return jsonify(output), 200
 
 # get a reminder by id
-@app.route(root + '/reminders/<id>')
+@app.route(root + '/reminders/<id>', methods=['GET'])
 def get_reminder(id):
     cursor.execute('SELECT * FROM reminder WHERE id = ?', (id,))
     reminder = cursor.fetchone()
     if reminder:
         return  jsonify({ 'id': reminder[0], 'task': reminder[1], 'date': reminder[2], 'time': reminder[3]})
     else:
-        return 'Reminder not found', 404
+        return  jsonify({ 'message': 'Reminder not found' }), 404
 
 # add a reminder
 @app.route(root + '/reminders', methods=['POST'])
@@ -61,25 +61,29 @@ def add_reminder():
     cursor.execute('INSERT INTO reminder (task, date, time) VALUES (?, ?, ?)', (reminder['task'], reminder['date'], reminder['time']))
     cursor.execute('INSERT INTO history (task_id, status, date, time) VALUES (?, ?, ?, ?)', (cursor.lastrowid, 'CREATED', datetime.today().strftime('%Y-%m-%d'), datetime.now().strftime('%H:%M:%S')))
     conn.commit()
-    return 'Reminder added successfully', 201
+    return jsonify({ 'id': cursor.lastrowid, 'task': reminder['task'], 'date': reminder['date'], 'time': reminder['time'] }), 201
 
 # update a reminder
 @app.route(root + '/reminders/<id>', methods=['PUT'])
 def update_reminder(id):
+    if not get_reminder(id):
+        return jsonify({ 'message': 'Reminder not found' }), 404
     reminder = request.get_json()
     cursor.execute('UPDATE reminder SET task = ?, date = ?, time = ? WHERE id = ?', (reminder['task'], reminder['date'], reminder['time'], id))
     cursor.execute('INSERT INTO history (task_id, status, date, time) VALUES (?, ?, ?, ?)', (id, 'UPDATED', datetime.today().strftime('%Y-%m-%d'), datetime.now().strftime('%H:%M:%S')))
     conn.commit()
-    return 'Reminder updated successfully', 200
+    return jsonify({'message': 'Reminder updated successfully'}), 204
 
 @app.route(root + '/reminders/<id>', methods=['DELETE'])
 def delete_reminder(id):
+    if not get_reminder(id):
+        return jsonify({ 'message': 'Reminder not found' }), 404
     cursor.execute('DELETE FROM reminder WHERE id = ?', (id,))
     cursor.execute('INSERT INTO history (task_id, status, date, time) VALUES (?, ?, ?, ?)', (id, 'DELETED', datetime.today().strftime('%Y-%m-%d'), datetime.now().strftime('%H:%M:%S')))
     conn.commit()
-    return 'Reminder deleted successfully', 200
+    return jsonify({'message': 'Reminder deleted successfully'}), 204
 
-@app.route(root + '/histories')
+@app.route(root + '/histories', methods=['GET'])
 def get_histories():
     cursor.execute('SELECT * FROM history')
     histories = cursor.fetchall()
@@ -87,7 +91,7 @@ def get_histories():
     for history in histories:
         history_dict = { 'task_id': history[0], 'status': history[1], 'date': history[2], 'time': history[3] }
         output.append(history_dict)
-    return output
+    return output, 200
 
 if __name__ == '__main__':
     app.run(port=8080)

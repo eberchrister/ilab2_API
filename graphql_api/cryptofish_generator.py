@@ -7,7 +7,7 @@ if opt == 'n':
     exit()
 
 
-connection = sqlite3.connect("graphql_backend/cryptofish.db", check_same_thread=False)
+connection = sqlite3.connect("cryptofish.db", check_same_thread=False)
 
 planet = [1, 2, 3, 4, 5, 6, 7]
 status = ['hungry', 'sleepy', 'bored', 'playful', 'grumpy', 'lonely', 'happy']
@@ -43,7 +43,7 @@ queries.append('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TE
 queries.append('INSERT INTO planet (name, type) VALUES ("earth-420", "terrestrial");')
 queries.append('INSERT INTO planet (name, type) VALUES ("ilab-2", "ocean");')
 queries.append('INSERT INTO planet (name, type) VALUES ("welsenus", "gas giant");')
-queries.append('INSERT INTO planet (name, type) VALUES ("chritorus", "ice giant");')
+queries.append('INSERT INTO planet (name, type) VALUES ("chrsitorus", "ice giant");')
 queries.append('INSERT INTO planet (name, type) VALUES ("x-212", "neptunian");')
 queries.append('INSERT INTO planet (name, type) VALUES ("mars-54", "puffy");')
 queries.append('INSERT INTO planet (name, type) VALUES ("kaku-z", "protoplanet");')

@@ -10,6 +10,17 @@
 
         <title>cryptofish</title>
         <style>
+            .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin:-10px;
+            }
+            .container>* {
+                flex:  0 0 430px;
+                margin: 10px;
+            }
             .fish-entry {
                 display: flex;
             }
@@ -30,35 +41,38 @@
                 padding-left: 10px;
             }
         </style>
+
     </head>
     <body>
         <div id = "cryptofish" class="content active">
-            <h1>Cryptofish</h1>             
-            <p style="font-size: smaller;"> *can only be updated using API calls</p>
+            <h1 style="text-align: center;">Cryptofish Catalogue</h1>             
+            <p style="font-size: smaller; text-align: center;"> *can only be updated using queries from <a href = {{c_url}}>{{c_url}}</a></p>
             
-            {% for cryptofish in all_cryptofish %}
-            <div class="fish-entry" style="border:2px black double; width: 500px ;">
-                <div class="fish">
-                    <p style="font-family: monospace">
-                        {% autoescape false %}
-                        {{cryptofish.art}}
-                        {% endautoescape %}
-                    </p>
+            <div class="container">
+                {% for cryptofish in all_cryptofish %}
+                <div class="fish-entry" style="border:2px black double; width: 500px ;">
+                    <div class="fish">
+                        <p style="font-family: monospace">
+                            {% autoescape false %}
+                            {{cryptofish.art}}
+                            {% endautoescape %}
+                        </p>
+                    </div>
+                    <div class="fish-desc">
+                        <p style="font-family: monospace">
+                            id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{cryptofish.id}}<br>
+                            name&nbsp;&nbsp;&nbsp;&nbsp;: {{cryptofish.name}}<br>
+                            planet&nbsp;&nbsp;: {{cryptofish.planet.name}}<br>
+                            status&nbsp;&nbsp;: {{cryptofish.status}}<br>
+                            size&nbsp;&nbsp;&nbsp;&nbsp;: {{cryptofish.size}}<br>
+                            value&nbsp;&nbsp;&nbsp;: {{cryptofish.cost}} ILAB<br>
+                            owner&nbsp;&nbsp;&nbsp;: {{cryptofish.owner.name}}
+                        </p>
+                    </div>
                 </div>
-                <div class="fish-desc">
-                    <p style="font-family: monospace">
-                        id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{cryptofish.id}}<br>
-                        name&nbsp;&nbsp;&nbsp;&nbsp;: {{cryptofish.name}}<br>
-                        planet&nbsp;&nbsp;: {{cryptofish.planet.name}}<br>
-                        status&nbsp;&nbsp;: {{cryptofish.status}}<br>
-                        size&nbsp;&nbsp;&nbsp;&nbsp;: {{cryptofish.size}}<br>
-                        value&nbsp;&nbsp;&nbsp;: {{cryptofish.cost}} ILAB<br>
-                        owner&nbsp;&nbsp;&nbsp;: {{cryptofish.owner.name}}
-                    </p>
-                </div>
+                </br>
+                {% endfor %}
             </div>
-            </br>
-            {% endfor %}
         </div>
         
     </body>

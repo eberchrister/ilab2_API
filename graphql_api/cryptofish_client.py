@@ -35,7 +35,7 @@ def index():
         fish['art'] = cryptofish_art(fish)
         print(fish['art'])
     # print(data)
-    return render_template('index.html', all_cryptofish = all_cryptofish)
+    return render_template('index.html', all_cryptofish = all_cryptofish, c_url = url)
 
 def cryptofish_art(cryptofish):
     art = '+------------+<br>'

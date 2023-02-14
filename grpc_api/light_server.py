@@ -56,19 +56,6 @@ class LightServiceServicer(light_pb2_grpc.LightServiceServicer):
         self.db.execute("UPDATE light SET red = ?, green = ?, blue = ?, state = ? WHERE id = ?", (target_red, target_green, target_blue, int(target_on), target_id))
         self.db.connection.commit()
 
-        # if light_pb2_grpc.LightServiceStub(grpc.insecure_channel('localhost:50051')).GetLight(light_pb2.Indicator(id=target_id)).message == 'Light not found':
-        #     return light_pb2.LightResponse(message = 'Light not found', light = None)
-        # return light_pb2.LightResponse(
-        #     message = 'Light updated',
-        #     light = light_pb2.Light(
-        #         id = target_id,
-        #         red = target_red,
-        #         green = target_green,
-        #         blue = target_blue,
-        #         on = target_on
-        #     )
-        # )
-
         return light_pb2.Empty()
 
     def GetLights(self, request, context):
